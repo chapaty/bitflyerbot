@@ -19,15 +19,24 @@ exports.handler = function (event, context) {
             });
         },
         function (data, next) {
-            console.log(data);
+            var date = new Date(data.timestamp);
+            // asia timezone 
+            date.setHours(date.getHours() + 9);
+            format_str = 'YYYY-MM-DD hh:mm:ss';
+            format_str = format_str.replace(/YYYY/g, date.getFullYear());
+            format_str = format_str.replace(/MM/g, ("0"+(date.getMonth()+1)).slice(-2));// start month 0
+            format_str = format_str.replace(/DD/g, ("0" + (date.getDate())).slice(-2));
+            format_str = format_str.replace(/hh/g, ("0" + (date.getHours())).slice(-2));
+            format_str = format_str.replace(/mm/g, ("0" + (date.getMinutes())).slice(-2));
+            format_str = format_str.replace(/ss/g, ("0" + (date.getSeconds())).slice(-2));
+
             var params = {
                 TableName: tableName,
                 Item: {
-                    "date_id": data.timestamp,
+                    "date_id": format_str,
                     "price" : data.ltp
                 }
             }
-            console.log(params);
             dynamo.put(params, function (err, data) {
                 if (err) {
                     console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
