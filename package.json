@@ -1,0 +1,26 @@
+{
+  "name": "LambdaBitFlyerBot",
+  "version": "1.0.0",
+  "description": "To be completed - getting started text for the new project.",
+  "main": "_testdriver.js",
+  "dependencies": {
+    "async": "^2.4.1",
+    "aws-sdk": "^2.66.0",
+    "request": "^2.81.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chapaty/bitflyerbot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chapaty/bitflyerbot/issues"
+  },
+  "homepage": "https://github.com/chapaty/bitflyerbot#readme"
+}
