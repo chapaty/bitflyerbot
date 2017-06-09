@@ -19,6 +19,7 @@ exports.handler = function (event, context) {
             });
         },
         function (data, next) {
+
             var date = new Date(data.timestamp);
             // asia timezone 
             date.setHours(date.getHours() + 9);

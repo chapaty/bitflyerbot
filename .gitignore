@@ -1,2 +1,5 @@
 ﻿LambdaBitFlyerBot.njsproj
 node_modules/*
+/.vs/ProjectSettings.json
+/.vs/slnx.sqlite
+/.vs
