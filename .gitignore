@@ -3,4 +3,3 @@ node_modules/*
 /.vs/ProjectSettings.json
 /.vs/slnx.sqlite
 /.vs
-_testdriver.js
