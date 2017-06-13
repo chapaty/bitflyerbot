@@ -11,6 +11,14 @@
 
 // Set the region to the locations of the S3 buckets
 process.env['AWS_REGION'] = 'us-west-2'
+process.env['MICROSOFT_APP_ID'] = '67325414-146f-4de5-8846-9b9d936ccc5b';
+process.env['MICROSOFT_APP_PASSWORD'] = 'WAyRKX1JK20CRpDN69S3xx4';
+//もつこGr
+//process.env['SKYPE_GROUP_ID'] = '19:e2fedb54ac5742e893a25dd3664f8aea@thread.skype';
+//かねぴーGr
+//process.env['SKYPE_GROUP_ID'] = '19:84fa7895f324482c9620b2906f08c02e@thread.skype';
+//久山Gr.
+process.env['SKYPE_GROUP_ID'] = '19:e114d823fd614e3d896755a6dc2b0195@thread.skype';
 
 var fs = require('fs');
 var app = require('./app');
