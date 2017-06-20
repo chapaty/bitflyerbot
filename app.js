@@ -6,16 +6,23 @@ var tableName = "bitflyer_history";
 process.env.TZ = 'Asia/Tokyo';
 
 exports.handler = function (event, context) {
+    var base = 'https://api.bitflyer.jp';
     var path = '/v1/ticker';
-    var query = '?product_code=FX_BTC_JPY';
-    var url = 'https://api.bitflyer.jp' + path + query;
+    var fxQuery = '?product_code=FX_BTC_JPY';
+    var rowQuery = '?product_code=BTC_JPY';
+    var fxUrl = base + path + fxQuery;
+    var rowUrl = base + path + rowQuery;
+    var fxLtp = 0;
+    var rowLtp = 0;
     var time = '';
 
     async.waterfall([
         function (next) {
-            request(url, function (err, response, payload) {
+            request(fxUrl, function (err, response, payload) {
                 console.log(JSON.parse(payload));
-                next(null, JSON.parse(payload));
+                var data = JSON.parse(payload);
+                fxLtp = data.ltp;
+                next(null, data);
             });
         },
         function (data, next) {
@@ -30,11 +37,22 @@ exports.handler = function (event, context) {
             format_str = format_str.replace(/mm/g, ("0" + (date.getMinutes())).slice(-2));
             format_str = format_str.replace(/ss/g, ("0" + (date.getSeconds())).slice(-2));
             time = format_str;
+            next(null);
+        },
+        function (next) {
+            request(rowUrl, function (err, response, payload) {
+                var data = JSON.parse(payload);
+                rowLtp = data.ltp;
+                next(null);
+            });
+        },
+        function (next) {
             var params = {
                 TableName: tableName,
                 Item: {
                     "date_id": format_str,
-                    "price": data.ltp
+                    "price": fxLtp,
+                    "rowPrice" : rowLtp
                 }
             }
             dynamo.put(params, function (err, res) {
@@ -43,10 +61,13 @@ exports.handler = function (event, context) {
                 } else {
                     console.log("Added item:", JSON.stringify(res, null, 2));
                 }
-                next(null, data);
+                next(null, params);
             });
         },
+        /* 通知不要のため停止
         function (data, next) {
+            next(null);
+
             console.log('skype start');
             var params = {
                 "client_id": process.env.MICROSOFT_APP_ID,
@@ -87,8 +108,8 @@ exports.handler = function (event, context) {
                     next(null);
                 });
             });
-
         }
+        */
     ], function (err, res) {
         context.done(null, res);  // SUCCESS with message
     });
