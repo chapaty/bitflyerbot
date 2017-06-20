@@ -17,6 +17,7 @@ exports.handler = function (event, context) {
     var time = '';
 
     async.waterfall([
+        //FX
         function (next) {
             request(fxUrl, function (err, response, payload) {
                 console.log(JSON.parse(payload));
@@ -39,6 +40,7 @@ exports.handler = function (event, context) {
             time = format_str;
             next(null);
         },
+        //現物
         function (next) {
             request(rowUrl, function (err, response, payload) {
                 var data = JSON.parse(payload);
